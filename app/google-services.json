@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1084355783282",
+    "firebase_url": "https://melo-3cd94.firebaseio.com",
+    "project_id": "melo-3cd94",
+    "storage_bucket": "melo-3cd94.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084355783282:android:71639fc56d5f8f101c30eb",
+        "android_client_info": {
+          "package_name": "com.example.melo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084355783282-gos6v6lbbdbae7vtnin6gl3nevt1asnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2rIrJt55sxMWQ9Gmthd_IAqDaN8AjWgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084355783282-gos6v6lbbdbae7vtnin6gl3nevt1asnc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

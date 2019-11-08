@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Melo</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="Melo">Melo</string>
+    <string name="error">Error!</string>
+    <string name="enter_lobby_code_error">You must enter a lobby code</string>
+</resources>
