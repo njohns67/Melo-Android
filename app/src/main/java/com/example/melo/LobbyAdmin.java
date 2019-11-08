@@ -172,16 +172,28 @@ public class LobbyAdmin extends AppCompatActivity {
 
                         }
                         else {
-                            progressBar.setProgress(0);
-                            progress = 0;
-                            db.getReference(MainActivity.lobbyCode).child("currentSong").child("position").setValue("0");
+                            if(playerState.isPaused){
+                                isPaused = true;
+                                db.getReference(MainActivity.lobbyCode).child("currentSong").child("isPaused").setValue("true");
+                                return;
+                            }
+                            else{
+                                if(isPaused){
+                                    isPaused = false;
+                                    db.getReference(MainActivity.lobbyCode).child("currentSong").child("isPaused").setValue("false");
+                                    return;
+                                }
+                                progressBar.setProgress(0);
+                                progress = 0;
+                                db.getReference(MainActivity.lobbyCode).child("currentSong").child("position").setValue("0");
+                                isPaused = false;
+                            }
                         }
                     }
                     else {
                         progressBar.setProgress(0);
                         progress = 0;
                         db.getReference(MainActivity.lobbyCode).child("currentSong").child("position").setValue("0");
-                        mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
                     }
                     if (playerState.isPaused) {
                         Log.d("MainActivity", "Paused");
@@ -238,7 +250,6 @@ public class LobbyAdmin extends AppCompatActivity {
             @Override
             public void run() {
                 if(!isPaused){
-
                     ((ProgressBar)findViewById(R.id.progressBar)).setProgress(progress++);
                 }
             }
