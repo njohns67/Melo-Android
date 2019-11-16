@@ -9,7 +9,7 @@
     <ImageButton
         android:id="@+id/pausePlayButton"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_width="48dp"
+        android:layout_width="45dp"
         android:layout_height="57dp"
         android:layout_marginBottom="15dp"
         android:background="@null"

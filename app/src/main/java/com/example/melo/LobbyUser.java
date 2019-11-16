@@ -228,15 +228,6 @@ public class LobbyUser extends AppCompatActivity {
         EditText searchField = findViewById(R.id.searchSong);
         String searchText = searchField.getText().toString();
         if(searchText.isEmpty()){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("You must enter the name of a song or artist to search for").setTitle(R.string.error);
-            builder.setPositiveButton("Go Back", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int id){
-                    return;
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
             return;
         }
         Intent intent = new Intent(this, SearchSpotify.class);
