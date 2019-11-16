@@ -6,27 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".LobbyAdmin">
 
-    <EditText
-        android:id="@+id/searchSong"
-        android:layout_width="243dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="@android:string/search_go"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.23"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
     <ImageButton
         android:id="@+id/pausePlayButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="57dp"
+        android:layout_height="65dp"
         android:layout_marginBottom="30dp"
         android:onClick="pausePlayClick"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -35,12 +22,14 @@
 
     <ImageButton
         android:id="@+id/nextSong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="57dp"
+        android:layout_height="65dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="9dp"
         android:onClick="nextSong"
+        android:scaleType="centerCrop"
         android:tint="@null"
         app:layout_constraintBottom_toBottomOf="@+id/pausePlayButton"
         app:layout_constraintStart_toEndOf="@+id/pausePlayButton"
@@ -50,36 +39,61 @@
 
     <ImageButton
         android:id="@+id/previousSong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="57dp"
+        android:layout_height="65dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:onClick="previousSong"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/pausePlayButton"
         app:layout_constraintEnd_toStartOf="@+id/pausePlayButton"
         app:layout_constraintTop_toTopOf="@+id/pausePlayButton"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@android:drawable/ic_media_previous" />
 
-    <ImageButton
-        android:id="@+id/searchButton"
-        android:layout_width="39dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:background="@null"
-        android:onClick="searchSong"
-        app:layout_constraintStart_toEndOf="@+id/searchSong"
-        app:layout_constraintTop_toTopOf="@+id/searchSong"
-        app:srcCompat="@android:drawable/ic_search_category_default" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+        <EditText
+            android:id="@+id/searchSong"
+            android:layout_width="243dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="0dp"
+            android:ems="10"
+            android:hint="@android:string/search_go"
+            android:inputType="textPersonName" />
+
+        <ImageButton
+            android:id="@+id/searchButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="0dp"
+            android:background="@null"
+            android:onClick="searchSong"
+            android:scaleType="fitCenter"
+            app:srcCompat="@android:drawable/ic_search_category_default" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="355dp"
         android:layout_height="20dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:max="100"
         app:layout_constraintBottom_toTopOf="@+id/pausePlayButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +119,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
-        android:text="Search for a song"
+        android:text="Search for a song:"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
