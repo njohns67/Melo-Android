@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class CustomAdapter extends ArrayAdapter<Song> implements View.OnClickLis
         TextView txtType;
         TextView artist;
         ImageView addToQueue;
+        ImageView thumbnail;
     }
 
 
@@ -56,6 +58,7 @@ public class CustomAdapter extends ArrayAdapter<Song> implements View.OnClickLis
             viewHolder.title = (TextView) convertView.findViewById(R.id.title);
             viewHolder.artist = (TextView) convertView.findViewById(R.id.artist);
             viewHolder.addToQueue = (ImageView) convertView.findViewById(R.id.addToQueue);
+            viewHolder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
 
             result=convertView;
 
@@ -73,6 +76,7 @@ public class CustomAdapter extends ArrayAdapter<Song> implements View.OnClickLis
         viewHolder.artist.setText(song.getArtist());
         viewHolder.addToQueue.setOnClickListener(this);
         viewHolder.addToQueue.setTag(position);
+        Picasso.get().load(song.getThumbnail()).into(viewHolder.thumbnail);
         // Return the completed view to render on screen
         return convertView;
     }
@@ -89,7 +93,6 @@ public class CustomAdapter extends ArrayAdapter<Song> implements View.OnClickLis
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference ref = db.getReference();
         ref.child(MainActivity.lobbyCode).child(song.getTitle()).setValue(song.getUri());
-        //mSpotifyAppRemote.getPlayerApi().queue(song.getUri());
         //TODO: Add verficiation for success/failure
 
 

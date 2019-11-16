@@ -63,7 +63,8 @@ public class SearchSpotify extends AppCompatActivity {
                                 String artist = list.getJSONArray("artists").getJSONObject(0).getString("name");
                                 String title = list.getString("name");
                                 String uri = list.getString("uri");
-                                Song song = new Song(title, artist, uri);
+                                String thumbnail = list.getJSONObject("album").getJSONArray("images").getJSONObject(0).getString("url");
+                                Song song = new Song(title, artist, uri, thumbnail);
                                 results.add(song);
                                 Log.d("Song", title);
                                 Log.d("Artist", artist);
@@ -123,7 +124,11 @@ public class SearchSpotify extends AppCompatActivity {
 
     public void displayResults(ArrayList<Song> results){
         listView=(ListView)findViewById(R.id.list);
-        adapter= new CustomAdapter(results, getApplicationContext());
+        if(results.isEmpty()){
+            TextView noResultsText = findViewById(R.id.noResults);
+            noResultsText.setVisibility(View.VISIBLE);
+        }
+        adapter = new CustomAdapter(results, getApplicationContext());
         listView.setAdapter(adapter);
     }
 

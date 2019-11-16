@@ -6,10 +6,12 @@ public class Song {
     public String title;
     public String artist;
     public String uri;
-    public Song(String _title, String _artist, String _uri){
+    public String thumbnail;
+    public Song(String _title, String _artist, String _uri, String _thumbnail){
         title = _title;
         artist = _artist;
         uri = _uri;
+        thumbnail = _thumbnail;
     }
 
     public String getTitle(){
@@ -20,7 +22,7 @@ public class Song {
         return artist;
     }
 
-    public String getUri(){
-        return uri;
-    }
+    public String getUri(){ return uri; }
+
+    public String getThumbnail(){ return thumbnail; }
 }
