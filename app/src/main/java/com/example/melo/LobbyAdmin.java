@@ -72,6 +72,7 @@ public class LobbyAdmin extends AppCompatActivity {
     private DatabaseReference mPostReference;
     public static String lobbyCode;
     public static boolean isPaused = false;
+    public static boolean first = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -87,6 +88,7 @@ public class LobbyAdmin extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
+        Log.d("first", Boolean.toString(first));
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder(CLIENT_ID)
                         .setRedirectUri(REDIRECT_URI)
@@ -142,16 +144,11 @@ public class LobbyAdmin extends AppCompatActivity {
                         songName.setText(track.name);
                         TextView artist = findViewById(R.id.currentArtist);
                         artist.setText(track.artist.name);
-                        progressBar = findViewById(R.id.progressBar);
-                        progressBar.setMax((int) songLength / 1000);
-                        songLength = track.duration;
-                        Log.d("Main", Long.toString(songLength));
                         if (!currentSong.equals(track.name)) {
                             currentSong = track.name;
                             Log.d("Main", currentSong);
                             Log.d("Main", track.name);
-                            progressBar.setProgress(0);
-                            progress = 0;
+                            setProgress(playerState.playbackPosition, track.duration);
                             db.getReference(MainActivity.lobbyCode).child("currentSong").child("title").setValue(track.name)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -166,33 +163,32 @@ public class LobbyAdmin extends AppCompatActivity {
                                         }
                                     });
                             db.getReference(MainActivity.lobbyCode).child("currentSong").child("artist").setValue(track.artist.name);
-                            db.getReference(MainActivity.lobbyCode).child("currentSong").child("duration").setValue(track.duration);
+                            db.getReference(MainActivity.lobbyCode).child("currentSong").child("duration").setValue(Long.toString(track.duration));
                             db.getReference(MainActivity.lobbyCode).child("currentSong").child("isPaused").setValue("false");
                             db.getReference(MainActivity.lobbyCode).child("currentSong").child("position").setValue(String.valueOf(playerState.playbackPosition));
 
                         }
-                        else {
-                            if(playerState.isPaused){
+                        else {  //Song hasn't changed
+                            if(playerState.isPaused){   //Song is paused
                                 isPaused = true;
                                 db.getReference(MainActivity.lobbyCode).child("currentSong").child("isPaused").setValue("true");
                                 return;
                             }
                             else{
-                                if(isPaused){
+                                if(isPaused){   //Song is not paused but it was
                                     isPaused = false;
                                     db.getReference(MainActivity.lobbyCode).child("currentSong").child("isPaused").setValue("false");
                                     return;
                                 }
-                                progressBar.setProgress(0);
-                                progress = 0;
+                                //Song was restarted
+                                setProgress(playerState.playbackPosition, track.duration);
                                 db.getReference(MainActivity.lobbyCode).child("currentSong").child("position").setValue("0");
                                 isPaused = false;
                             }
                         }
                     }
                     else {
-                        progressBar.setProgress(0);
-                        progress = 0;
+                        setProgress(playerState.playbackPosition, track.duration);
                         db.getReference(MainActivity.lobbyCode).child("currentSong").child("position").setValue("0");
                     }
                     if (playerState.isPaused) {
@@ -208,6 +204,7 @@ public class LobbyAdmin extends AppCompatActivity {
                         button.setImageResource(android.R.drawable.ic_media_pause);
                     }
                 });
+
 
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
@@ -254,6 +251,15 @@ public class LobbyAdmin extends AppCompatActivity {
                 }
             }
         }, 0,1000);
+    }
+
+    public void setProgress(Long _progress, Long _songLength){
+        progress = (int) (_progress/1000);
+        songLength = _songLength;
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setMax((int) songLength / 1000);
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        db.getReference(MainActivity.lobbyCode).child("currentSong").child("progress").setValue(Integer.toString(progress));
     }
 
     public void pausePlayClick(View v){
@@ -337,7 +343,7 @@ public class LobbyAdmin extends AppCompatActivity {
                     }
                 }
         )
-//        {
+//        { // -
 //            @Override
 //            public Map<String, String> getParams(){
 //                Map<String, String> params = new HashMap<String, String>();
@@ -370,5 +376,15 @@ public class LobbyAdmin extends AppCompatActivity {
     protected void onStop(){
         super.onStop();
         timer.cancel();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

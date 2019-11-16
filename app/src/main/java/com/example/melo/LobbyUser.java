@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -122,10 +123,6 @@ public class LobbyUser extends AppCompatActivity {
                 Log.d("ValueIs", dataSnapshot.getValue().toString());
                 switch (dataSnapshot.getKey()){
                     case "title":
-                        if(!currentSong.equals(dataSnapshot.getValue().toString())){
-                            progressBar.setProgress(0);
-                            progress = 0;
-                        }
                         currentSong = dataSnapshot.getValue().toString();
                         ((TextView)findViewById(R.id.currentSong)).setText(currentSong);
                         break;
@@ -141,7 +138,7 @@ public class LobbyUser extends AppCompatActivity {
                         isPaused = Boolean.parseBoolean(dataSnapshot.getValue().toString());
                         break;
                     case "progress":
-                        progress = (int)(Long.getLong(dataSnapshot.getValue().toString())/1000);
+                        progress = Integer.parseInt(dataSnapshot.getValue().toString());
                         break;
                     }
                 }
@@ -297,11 +294,26 @@ public class LobbyUser extends AppCompatActivity {
                 }
                 params.put("Authorization", "Basic YmE5YjEzY2NiYTIwNGVkOWEyNWYxYTliYjczY2ViOGU6MzI3ZmIwYWQzMDAxNDcwZGIwYzk0MjYwYjc0Y2YxMjA=");// + Base64.encodeToString(encode, Base64.NO_WRAP));
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                Log.d("token", Base64.encodeToString(encode, Base64.NO_WRAP));
                 return params;
             }
         };
 
         queue.add(postRequest);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        timer.cancel();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
