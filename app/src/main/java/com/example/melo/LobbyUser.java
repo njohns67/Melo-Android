@@ -82,6 +82,7 @@ public class LobbyUser extends AppCompatActivity {
         lobbyCode = intent.getStringExtra("lobbyCode");
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.lobbyCodeText);
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
         textView.setText("Lobby Code:\n" + MainActivity.lobbyCode);
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference(MainActivity.lobbyCode)
@@ -137,7 +138,7 @@ public class LobbyUser extends AppCompatActivity {
                     case "isPaused":
                         isPaused = Boolean.parseBoolean(dataSnapshot.getValue().toString());
                         break;
-                    case "progress":
+                    case "position":
                         progress = Integer.parseInt(dataSnapshot.getValue().toString());
                         break;
                     }
@@ -155,9 +156,8 @@ public class LobbyUser extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
         db.getReference(MainActivity.lobbyCode).child("currentSong").addChildEventListener(childEventListener);
-
+        db.getReference(MainActivity.lobbyCode).child("userAdded").setValue("true");
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override

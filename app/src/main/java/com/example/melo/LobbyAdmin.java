@@ -165,7 +165,6 @@ public class LobbyAdmin extends AppCompatActivity {
                             db.getReference(MainActivity.lobbyCode).child("currentSong").child("artist").setValue(track.artist.name);
                             db.getReference(MainActivity.lobbyCode).child("currentSong").child("duration").setValue(Long.toString(track.duration));
                             db.getReference(MainActivity.lobbyCode).child("currentSong").child("isPaused").setValue("false");
-                            db.getReference(MainActivity.lobbyCode).child("currentSong").child("position").setValue(String.valueOf(playerState.playbackPosition));
 
                         }
                         else {  //Song hasn't changed
@@ -209,7 +208,7 @@ public class LobbyAdmin extends AppCompatActivity {
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                if (dataSnapshot.getKey().equals("currentSong")) {
+                if (dataSnapshot.getKey().equals("currentSong") || dataSnapshot.getKey().equals("userAdded")) {
                     return;
                 }
                 Log.d("Value", (String) dataSnapshot.getValue());
@@ -225,6 +224,15 @@ public class LobbyAdmin extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                if(dataSnapshot.getKey().equals("userAdded")){
+                    if(dataSnapshot.getValue().toString().equals("true")){
+                        mSpotifyAppRemote.getPlayerApi().getPlayerState().setResultCallback(playerState -> {
+                            setProgress(playerState.playbackPosition, playerState.track.duration);
+                            FirebaseDatabase db = FirebaseDatabase.getInstance();
+                            db.getReference(MainActivity.lobbyCode).child("userAdded").setValue("false");
+                        });
+                    }
+                }
             }
 
             @Override
@@ -259,7 +267,7 @@ public class LobbyAdmin extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setMax((int) songLength / 1000);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        db.getReference(MainActivity.lobbyCode).child("currentSong").child("progress").setValue(Integer.toString(progress));
+        db.getReference(MainActivity.lobbyCode).child("currentSong").child("position").setValue(Integer.toString(progress));
     }
 
     public void pausePlayClick(View v){

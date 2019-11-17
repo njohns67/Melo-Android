@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("lobbyCode", code);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference ref = db.getReference();
-        ref.child(code).child("null").setValue("null");
+        ref.child(code).child("userAdded").setValue("false");
         startActivity(intent);
     }
 }
